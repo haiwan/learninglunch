@@ -1,13 +1,16 @@
 package org.vaadin.haijian;
 
+import com.vaadin.flow.component.polymertemplate.EventHandler;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A Designer generated component for the hello-world.html template.
- *
+ * <p>
  * Designer will add and remove fields with @Id mappings but
  * does not overwrite or otherwise change this file.
  */
@@ -27,5 +30,14 @@ public class HelloWorld extends PolymerTemplate<HelloWorld.HelloWorldModel> {
      */
     public interface HelloWorldModel extends TemplateModel {
         // Add setters and getters for template properties here.
+        int getCount();
+
+        void setCount(int count);
+    }
+
+    @EventHandler
+    private void sayHello() {
+        getModel().setCount(getModel().getCount()+1);
+        LoggerFactory.getLogger(HelloWorld.class).info("I'm server, and I got notified");
     }
 }
