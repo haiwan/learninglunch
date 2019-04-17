@@ -1,10 +1,8 @@
 package org.vaadin.haijian;
 
-import com.vaadin.flow.component.ClientCallable;
-import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.polymertemplate.EventHandler;
+import com.vaadin.flow.component.*;
+import com.vaadin.flow.shared.Registration;
 import com.vaadin.flow.templatemodel.TemplateModel;
-import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import org.slf4j.Logger;
@@ -25,6 +23,15 @@ public class HelloWorld extends PolymerTemplate<HelloWorld.HelloWorldModel> {
      */
     public HelloWorld() {
         // You can initialise any data required for the connected UI components here.
+        ComponentUtil.addListener(this, ExtensiveClickEvent.class, extensiveClick -> {
+            handleExtensiveClicks(extensiveClick.getCount()*2);
+        });
+
+    }
+
+    private void handleExtensiveClicks(int count) {
+        getLogger().info(String.format("User clicked %d times", count));
+        getElement().callFunction("showMessage", "That's enough, please stop");
     }
 
     /**
@@ -41,7 +48,10 @@ public class HelloWorld extends PolymerTemplate<HelloWorld.HelloWorldModel> {
 
     @ClientCallable
     private void extensiveClicks(int count){
-        getLogger().info(String.format("User clicked %d times", count));
-        getElement().callFunction("showMessage", "That's enough, please stop");
+        handleExtensiveClicks(count);
+    }
+
+    Registration addExtensiveClickListener(ComponentEventListener<ExtensiveClickEvent> listener){
+        return ComponentUtil.addListener(this, ExtensiveClickEvent.class, listener);
     }
 }

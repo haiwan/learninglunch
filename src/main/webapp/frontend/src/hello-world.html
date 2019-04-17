@@ -38,7 +38,8 @@
             sayHello(){
                 this.count++;
                 if(this.count>10){
-                    this.$server.extensiveClicks(this.count);
+                    this.dispatchEvent(new CustomEvent('extensive-click', {detail: {count: this.count}}));
+                    //this.$server.extensiveClicks(this.count);
                 }
             }
 
