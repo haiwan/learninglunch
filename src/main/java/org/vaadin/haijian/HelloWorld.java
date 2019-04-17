@@ -1,5 +1,6 @@
 package org.vaadin.haijian;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.polymertemplate.EventHandler;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.component.Tag;
@@ -39,5 +40,7 @@ public class HelloWorld extends PolymerTemplate<HelloWorld.HelloWorldModel> {
     private void sayHello() {
         getModel().setCount(getModel().getCount()+1);
         LoggerFactory.getLogger(HelloWorld.class).info("I'm server, and I got notified");
+        //UI.getCurrent().getPage().executeJavaScript(String.format("alert(%d)", getModel().getCount()));
+        getElement().callFunction("showMessage", getModel().getCount());
     }
 }
