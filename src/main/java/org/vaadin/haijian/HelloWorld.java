@@ -1,5 +1,6 @@
 package org.vaadin.haijian;
 
+import com.vaadin.flow.component.ClientCallable;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.polymertemplate.EventHandler;
 import com.vaadin.flow.templatemodel.TemplateModel;
@@ -31,16 +32,16 @@ public class HelloWorld extends PolymerTemplate<HelloWorld.HelloWorldModel> {
      */
     public interface HelloWorldModel extends TemplateModel {
         // Add setters and getters for template properties here.
-        int getCount();
 
-        void setCount(int count);
     }
 
-    @EventHandler
-    private void sayHello() {
-        getModel().setCount(getModel().getCount()+1);
-        LoggerFactory.getLogger(HelloWorld.class).info("I'm server, and I got notified");
-        //UI.getCurrent().getPage().executeJavaScript(String.format("alert(%d)", getModel().getCount()));
-        getElement().callFunction("showMessage", getModel().getCount());
+    private Logger getLogger() {
+        return LoggerFactory.getLogger(HelloWorld.class);
+    }
+
+    @ClientCallable
+    private void extensiveClicks(int count){
+        getLogger().info(String.format("User clicked %d times", count));
+        getElement().callFunction("showMessage", "That's enough, please stop");
     }
 }

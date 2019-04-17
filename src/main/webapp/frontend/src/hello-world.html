@@ -27,13 +27,20 @@
 
             static get properties() {
                 return {
+                    count: {
+                        type: Number,
+                        value: 0
+                    }
                     // Declare your properties here.
                 };
             }
 
-            //sayHello(){
-                //this.count++;
-            //}
+            sayHello(){
+                this.count++;
+                if(this.count>10){
+                    this.$server.extensiveClicks(this.count);
+                }
+            }
 
             showMessage(message){
                 alert("Hi "+message);
